@@ -23,7 +23,8 @@ window.onload = function () {
 		this.x = Math.floor(Math.random() * window.innerWidth);
 		this.y = window.innerHeight;
 		this.speed = Math.floor(Math.random() * 20) + 1;
-		this.color = 0;
+		var random = ["#d6e9ff", "white", "#bfdeff"];
+		this.color = random[Math.floor(Math.random() * 3)];
 	}
 	var arr = [];
 	for (var i = 0; i < 200; i++) {
@@ -39,7 +40,7 @@ window.onload = function () {
 		var orb = arr[i];
 		var gradient = ctx.createRadialGradient(orb.x, orb.y, orb.radius, orb.x, orb.y, orb.radius/2);
 		gradient.addColorStop(0, "black");
-		gradient.addColorStop(1, "white");
+		gradient.addColorStop(1, orb.color);
 	ctx.fillStyle = gradient;
 	ctx.beginPath();
 	ctx.arc(orb.x, orb.y, orb.radius, Math.PI * 2, 0);
