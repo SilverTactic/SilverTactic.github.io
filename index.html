@@ -1,58 +1,77 @@
 <html>
-<title>hi</title>
+<title>Derp</title>
 <head>
-<audio id = "opal" autoplay loop>
-	<source src = "Reborn-Opal.mp3" type = "audio/mpeg">
-</audio>
 <canvas id = "canvas"></canvas>
 <script>
-function toggle () {
-	var sound = document.getElementById("opal");
-	sound.muted = (sound.muted ? false : true);
-	sound.currentTime = 0;
-	sound.currentTime.play();
-}
 window.onload = function () {
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
-	canvas.width = window.innerWidth
-	canvas.height = window.innerHeight
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	
+	var x = Math.floor(Math.random() * window.innerWidth) + 1;
+	var y = Math.floor(Math.random() * window.innerHeight) + 1;
+	function randomColor () {
+		return '#' + ['ff0000', 'ff007f', '7b00ff', '0019ff', '00e5ff', '00ff2a', 'eeff00', 'ff9900'][Math.floor(Math.random() * 8)];
+	}
+	var color = randomColor();
 	
 	function thingy () {
-		this.radius = Math.floor(Math.random() * 75) + 1;
-		this.x = Math.floor(Math.random() * window.innerWidth);
-		this.y = window.innerHeight;
-		this.speed = Math.floor(Math.random() * 20) + 1;
-		var random = ["#d6e9ff", "white", "#bfdeff"];
-		this.color = random[Math.floor(Math.random() * 3)];
+		this.x = x
+		this.y = y
+		this.color = color;
+		this.angle = Math.floor(Math.random() * 65) - 20;
+		this.radius = Math.floor(Math.random() * 40) + 1;
+		this.speedx = Math.floor(Math.random () * 40) - 20;
+		this.speedy = Math.floor(Math.random () * 40) - 20;
+		this.draw = function () {
+			ctx.beginPath();
+			var gradient = ctx.createRadialGradient(this.x, this.y, this.radius, this.x, this.y, this.radius/2);
+			gradient.addColorStop(0, 'black');
+			gradient.addColorStop(1, this.color);
+			ctx.fillStyle = gradient;
+			ctx.arc(this.x, this.y, this.radius, Math.PI*2, 0);
+			ctx.closePath()
+			ctx.fill();
+		}
+		this.boxDraw = function () {
+			ctx.beginPath();
+			ctx.fillStyle = this.color;
+			ctx.fillRect(this.x, this.y, this.radius, this.radius);
+			/*ctx.translate(this.x + 0.5 * this.radius, this.y + 0.5 * this.radius);
+			ctx.rotate((Math.PI/180) * this.angle);
+			ctx.translate(-1 * (this.x + 0.5 * this.radius), -1 * (this.y + 0.5 * this.radius));*/
+		}
+		this.advance = function () {
+			this.x += this.speedx
+			this.y += this.speedy
+			this.radius -= 2;
+		}
 	}
 	var arr = [];
 	for (var i = 0; i < 200; i++) {
 		arr.push(new thingy());
 	}
-	
-	function random () {
-	ctx.fillStyle = "black";
-	ctx.globalCompositeOperation = "source-over"
-	ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-	ctx.globalCompositeOperation = "lighter";
-	for (var i = 0; i < 200; i++) {
-		var orb = arr[i];
-		var gradient = ctx.createRadialGradient(orb.x, orb.y, orb.radius, orb.x, orb.y, orb.radius/2);
-		gradient.addColorStop(0, "black");
-		gradient.addColorStop(1, orb.color);
-	ctx.fillStyle = gradient;
-	ctx.beginPath();
-	ctx.arc(orb.x, orb.y, orb.radius, Math.PI * 2, 0);
-	ctx.fill();
-	orb.radius -= 1.5;
-	orb.y -= orb.speed;
-	if (orb.radius <= 0) arr[i] = new thingy();
+	var count = 0;
+	function draw () {
+		ctx.globalCompositeOperation = 'source-over';
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+		ctx.globalCompositeOperation = 'lighter';
+		for (var i = 0; i < 200; i++) {
+			var bomb = arr[i]
+			bomb.boxDraw();
+			bomb.advance();
+			if (bomb.radius <= 0) arr[i] = new thingy();
+		}
+		count++;
+		if (count % 5 === 0) {
+			x = Math.floor(Math.random() * window.innerWidth) + 1;
+			y = Math.floor(Math.random() * window.innerWidth) + 1;
+			color = randomColor();
+		}
 	}
-	}
-	
-	setInterval(random, 60);
-	
+	setInterval(draw, 30);
 }
 </script>
 <style>
@@ -60,6 +79,7 @@ window.onload = function () {
 #canvas{
 	display: block;
 }
+</style>
 </body>
 </head>
 </html>
