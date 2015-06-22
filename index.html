@@ -1,6 +1,9 @@
 <html>
 <title>Derp</title>
 <head>
+<audio id = "opal" autoplay loop>
+	<source src = "Reborn-Opal.mp3" type = "audio/mpeg">
+</audio>
 <canvas id = "canvas"></canvas>
 <script>
 window.onload = function () {
@@ -9,69 +12,71 @@ window.onload = function () {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	
-	var x = Math.floor(Math.random() * window.innerWidth) + 1;
-	var y = Math.floor(Math.random() * window.innerHeight) + 1;
-	function randomColor () {
-		return '#' + ['ff0000', 'ff007f', '7b00ff', '0019ff', '00e5ff', '00ff2a', 'eeff00', 'ff9900'][Math.floor(Math.random() * 8)];
-	}
-	var color = randomColor();
+	var pics = [];
+	for (var i = 0; i < 3; i++)
+		pics[i] = new Image();
 	
-	function thingy () {
-		this.x = x
-		this.y = y
-		this.color = color;
-		this.angle = Math.floor(Math.random() * 65) - 20;
-		this.radius = Math.floor(Math.random() * 40) + 1;
-		this.speedx = Math.floor(Math.random () * 40) - 20;
-		this.speedy = Math.floor(Math.random () * 40) - 20;
-		this.draw = function () {
-			ctx.beginPath();
-			var gradient = ctx.createRadialGradient(this.x, this.y, this.radius, this.x, this.y, this.radius/2);
-			gradient.addColorStop(0, 'black');
-			gradient.addColorStop(1, this.color);
-			ctx.fillStyle = gradient;
-			ctx.arc(this.x, this.y, this.radius, Math.PI*2, 0);
-			ctx.closePath()
-			ctx.fill();
+	pics[0].src = "https://upload.wikimedia.org/wikipedia/commons/e/ec/Happy_smiley_face.png";
+	pics[1].src = "http://img3.wikia.nocookie.net/__cb20120117040542/callofduty/images/0/03/Awesome_face.png";
+	pics[2].src = "http://img.photobucket.com/albums/v78/Keggory/1192033212823-1.png";
+	
+	function randomImg () {
+		return pics[Math.floor(Math.random() * 3)];
+	}
+	
+	var isPressed, check = 0;
+	document.onkeydown = function () {
+		isPressed = true;
+	}
+	
+	function face () {
+		this.x = 0;
+		this.face = randomImg();
+		this.y = Math.floor(Math.random() * window.innerHeight);
+		this.radius = Math.floor(Math.random() * 70) + 30;
+		this.speedx = Math.floor(Math.random () * 30) + 15;
+		this.speedy = Math.floor(Math.random () * 30) + 10
+		this.vibrate = function () {
+			ctx.translate(this.x + 3, this.y);
+			ctx.translate(this.x - 3, this.y);
+			ctx.requestAnimationFrame(this.vibrate);
 		}
-		this.boxDraw = function () {
-			ctx.beginPath();
-			ctx.fillStyle = this.color;
-			ctx.fillRect(this.x, this.y, this.radius, this.radius);
-			/*ctx.translate(this.x + 0.5 * this.radius, this.y + 0.5 * this.radius);
-			ctx.rotate((Math.PI/180) * this.angle);
-			ctx.translate(-1 * (this.x + 0.5 * this.radius), -1 * (this.y + 0.5 * this.radius));*/
+		this.draw = function () {
+			ctx.drawImage(this.face, this.x, this.y, this.radius, this.radius);
 		}
 		this.advance = function () {
-			this.x += this.speedx
-			this.y += this.speedy
-			this.radius -= 2;
+			this.speedy *= 0.99;
+			this.speedy += 0.25;
+			this.x += this.speedx;
+			this.y += this.speedy;
+			if (this.y + this.speedy > canvas.height || this.y + this.speedy < 0) {
+				this.speedy = -this.speedy;
+			}
+			if (isPressed) {
+				this.vibrate();
+			}
 		}
 	}
+	
 	var arr = [];
-	for (var i = 0; i < 200; i++) {
-		arr.push(new thingy());
+	for (var i = 0; i < 69; i++) {
+		arr.push(new face());
 	}
+	
 	var count = 0;
 	function draw () {
 		ctx.globalCompositeOperation = 'source-over';
-		ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+		ctx.fillStyle = 'black';
 		ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-		ctx.globalCompositeOperation = 'lighter';
-		for (var i = 0; i < 200; i++) {
-			var bomb = arr[i]
-			bomb.boxDraw();
+		delete ctx.globalCompositeOperation;
+		for (var i = 0; i < 69; i++) {
+			var bomb = arr[i];
+			bomb.draw();
 			bomb.advance();
-			if (bomb.radius <= 0) arr[i] = new thingy();
-		}
-		count++;
-		if (count % 5 === 0) {
-			x = Math.floor(Math.random() * window.innerWidth) + 1;
-			y = Math.floor(Math.random() * window.innerWidth) + 1;
-			color = randomColor();
+			if (bomb.x >= canvas.width) arr[i] = new face();
 		}
 	}
-	setInterval(draw, 30);
+	setInterval(draw, 60);
 }
 </script>
 <style>
