@@ -1,87 +1,25 @@
+<!DOCTYPE html>
 <html>
-<title>Derp</title>
+<title>My Personal Site</title>
 <head>
-<canvas id = "canvas"></canvas>
-<script>
-window.onload = function () {
-	var canvas = document.getElementById("canvas");
-	var ctx = canvas.getContext("2d");
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	
-	var pics = [];
-	for (var i = 0; i < 3; i++)
-		pics[i] = new Image();
-	
-	pics[0].src = "https://upload.wikimedia.org/wikipedia/commons/e/ec/Happy_smiley_face.png";
-	pics[1].src = "http://img3.wikia.nocookie.net/__cb20120117040542/callofduty/images/0/03/Awesome_face.png";
-	pics[2].src = "http://img.photobucket.com/albums/v78/Keggory/1192033212823-1.png";
-	
-	function randomImg () {
-		return pics[Math.floor(Math.random() * 3)];
-	}
-	
-	var isPressed, check = 0;
-	document.onkeydown = function () {
-		isPressed = true;
-	}
-	
-	function face () {
-		this.x = 0;
-		this.face = randomImg();
-		this.y = Math.floor(Math.random() * window.innerHeight);
-		this.radius = Math.floor(Math.random() * 70) + 30;
-		this.speedx = Math.floor(Math.random () * 30) + 15;
-		this.speedy = Math.floor(Math.random () * 30) + 10
-		this.vibrate = function () {
-			ctx.translate(this.x + 3, this.y);
-			ctx.translate(this.x - 3, this.y);
-			ctx.requestAnimationFrame(this.vibrate);
-		}
-		this.draw = function () {
-			ctx.drawImage(this.face, this.x, this.y, this.radius, this.radius);
-		}
-		this.advance = function () {
-			this.speedy *= 0.99;
-			this.speedy += 0.25;
-			this.x += this.speedx;
-			this.y += this.speedy;
-			if (this.y + this.speedy > canvas.height || this.y + this.speedy < 0) {
-				this.speedy = -this.speedy;
-			}
-			if (isPressed) {
-				this.vibrate();
-			}
-		}
-	}
-	
-	var arr = [];
-	for (var i = 0; i < 69; i++) {
-		arr.push(new face());
-	}
-	
-	var count = 0;
-	function draw () {
-		ctx.globalCompositeOperation = 'source-over';
-		ctx.fillStyle = 'black';
-		ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-		delete ctx.globalCompositeOperation;
-		for (var i = 0; i < 69; i++) {
-			var bomb = arr[i];
-			bomb.draw();
-			bomb.advance();
-			if (bomb.x >= canvas.width) arr[i] = new face();
-		}
-	}
-	setInterval(draw, 60);
-}
-</script>
-<style>
-*{margin : 0; padding: 0;}
-#canvas{
-	display: block;
-}
-</style>
+<link rel="stylesheet" href = "styles.css" type = "text/css" media = "all">
+</head>
+<body>
+<ul class = "navbar">
+	<li>TEST
+	<li>TEST
+</ul>
+
+<div class = "mainbox">
+	<br>
+	<span style = "z-index: 2; font-size: 40pt; font-family: exo; color: #00C9FF; text-shadow: 0px 0px 30px #03FFFF"><b>Welcome to this thing.</b></span>
+	<p style = "font-size: 15pt; color: #00DB34; text-shadow: 0px 0px 10px #01FF3D"><b>Heyy peeps. My name's Siiilver and I welcome you to my personal webpage. <s>I liek gei pr0nz</s>.<br>
+	I have no idea what to say here right now. I suck at introductions. Anyhow, if this site's got your attention (which it probably hasn't), then go ahead and click
+	on the tab thingies above. Or the thing below.</b></p>
+	<br><br>
+	<button id = "uselessbutton">CLICK HERE!</button>
+</div>
+</div>
 </body>
 </head>
 </html>
