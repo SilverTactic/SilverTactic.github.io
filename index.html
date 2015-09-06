@@ -1,7 +1,47 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
-<link href="tab.css" rel="stylesheet">
+<style>
+.marquee {
+   width: 500px;
+   margin: 0 auto;
+   background-image: url('http://24.media.tumblr.com/441d6e39380801251a82374476b2769b/tumblr_mi4j1pv6gA1s43s6do1_500.gif');
+   white-space: nowrap;
+   overflow: hidden;
+   box-sizing: border-box;
+   color:black;
+   font-size:18px;
+}
+ 
+.marquee span {
+   display: inline-block;
+   padding-left: 100%;
+   text-indent: 0;
+   animation: marquee 15s linear infinite;
+}
+ 
+.marquee span:hover {
+    animation-play-state: paused
+}
+ 
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+ 
+.head1 {
+        width: 1500px;
+        background-image: url('http://media.giphy.com/media/TbWQoPQOxwBpe/giphy.gif');
+        white-space: nowrap;
+        overflow: hidden;
+        color: red;
+        font-size: 18px;
+}
+ 
+.par2 {
+        text-color: yellow;
+}
+</style>
 <title>Search Box Example 1</title>
 <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
 <!-- CSS styles for standard search box -->
