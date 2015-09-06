@@ -1,116 +1,86 @@
 <!DOCTYPE html>
-<html>
-<title>My Personal Site</title>
-<head>
-<style>
-	@font-face {
-	font-family: opensans;
-	src: url(open-sans.regular.ttf);
-}
-
-@font-face {
-	font-family: exo;
-	src: url(exo.regular.otf);
-	font-weight: bold;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	font-family: exo, Arial, Verdana, sans-serif;
-}
-
-#uselessbutton {
-	width: 150px;
-	height: 50px;
-	background-color: #00a4e0;
-	border-radius: 30px;
-	border: none;
-	color: white;
-	font-size: 18px;
-	font-family: opensans, Arial;
-	font-weight: bold;
-	transition: background-color 0.5s;
-}
-
-#uselessbutton:hover {
-	background-color: #006cb5;
-}
-
-#search {
-	margin-left: auto; 
-	margin-right: auto;
-	width: 300px; 
-	height: 40px; 
-	text-align: center;
-	font-size: 18px;
-	border: 1px solid #ccc;
-	border-radius: 5px; 
-	box-shadow: inset 1px 1px rgba(0,0,0,0.1);
-	transition: box-shadow ease-in-out 0.1s, border-color ease-in-out 0.1s;
-}
-
-.mainbox {
-	left: 0;
-	top: 0;
-	z-index: -1;
-	padding-right: 15%;
-	padding-left: 15%;
-	margin-top: 10px;
-	width: 70%;
-	height: 94%;
-	background: url(colorballs.png) no-repeat 0px -90px;
-	background-size: 100%;
-	position: absolute;
-	padding-top: 30px; 
-	text-align: center;
-	box-shadow: 3px 3px 20px black;
-}
-
-.navbar {
-	list-style-type: none;
-	text-align: center;
-	margin: 0px;
-	padding: 0px;
-	background: black;
-	border-bottom: 1px solid blue;
-	width: 100%;
-	top: 0;
-	left: 0;
-	height: 6%;
-	position: fixed;
-	overflow: hidden;
-}
-
-li {
-	padding-top: 10px; 
-	text-align: relative;
-	float: left;
-	color: white;
-	width: 8%;
-	font-family: exo, Arial;
-	height: 100%;
-	font-weight: bold;
-	transition: color 0.3s;
-	cursor: pointer;
-}
+<HTML>
+<HEAD>
+<link href="tab.css" rel="stylesheet">
+<title>Search Box Example 1</title>
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+<!-- CSS styles for standard search box -->
+<style type="text/css">
+        #tfheader{
+ 
+        }
+        #tfnewsearch{
+                float:left;
+                padding:20px;
+        }
+        .tftextinput{
+                margin: 0;
+                padding: 5px 15px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size:14px;
+                border:1px solid #0076a3; border-right:0px;
+                border-top-left-radius: 5px 5px;
+                border-bottom-left-radius: 5px 5px;
+        }
+        .tfbutton {
+                padding: 5px 15px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size:14px;
+                outline: none;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                color: #ffffff;
+                border: solid 1px #0076a3; border-right:0px;
+                background: #0095cd;
+                background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+                background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+                border-top-right-radius: 5px 5px;
+                border-bottom-right-radius: 5px 5px;
+        }
+        .tfbutton:hover {
+                text-decoration: none;
+                background: #007ead;
+                background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+                background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+        }
+        /* Fixes submit button height problem in Firefox */
+        .tfbutton::-moz-focus-inner {
+          border: 0;
+        }
+        .tfclear{
+                clear:both;
+        }
 </style>
-</head>
-
-<body>
-<ul class = "navbar">
-	<li>TEST
-	<li>TEST
-</ul>
-
-<div class = "mainbox">
-	<br>
-	<span style = "z-index: 2; font-size: 40pt; font-family: exo; color: #00C9FF; text-shadow: 0px 0px 30px #03FFFF"><b>Welcome to this thing.</b></span>
-	<p style = "font-size: 15pt; color: #00DB34; text-shadow: 0px 0px 10px #01FF3D"><b>Heyy peeps. My name's Siiilver and I welcome you to my personal webpage. <s>I liek gei pr0nz</s>.<br>
-	I have no idea what to say here right now. I suck at introductions. Anyhow, if this site's got your attention (which it probably hasn't), then go ahead and click
-	on the tab thingies above. Or the thing below.</b></p>
-	<br><br>
-	<button id = "uselessbutton">CLICK HERE!</button>
+</HEAD>
+<BODY background="http://i659.photobucket.com/albums/uu316/allliihavexll3/graphics/bEAt-1.gif">
+<div class="head1">
+<h1> WELCOME BACK TO CHROME, ROHAN. SO WHAT DO YOU WANT TO DO TODAY?</h1>
 </div>
-</body>
-</html>
+<div class="marquee">
+<p>
+<span id="dtText"></span>
+<script>
+var today = new Date();
+document.getElementById('dtText').innerHTML=today;
+</script>
+</p>
+</div>
+<div class="par2">
+<p2><font color="yellow" size=30px>So do you want to: </font> <br>
+<font color="yellow" size="6">Search for something? Here are a few noted search engines then: <a href="http://www.google.com">Google</a> <a href="http://www.bing.com"> Bing</a> </font> <br>
+<font color="red" size="6">Or just feed off of my hard work here, you sick fgt >_> : </font><br>
+<!-- HTML for SEARCH BAR -->
+        <div id="tfheader">
+                <form id="tfnewsearch" method="get" action="http://www.google.com">
+                        <input type="text" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
+                </form>
+        <div class="tfclear"></div>
+        </div>
+<font color="yellow" size="6">Play online games? Here are your favorite sites: <a href="http://www.gameshed.com">Gameshed</a> <a href="http://www.newgrounds.com"> Newgrounds</a> <a href="http://www.kongregate.com"> Kongregate</a> <a href="http://www.miniclip.com"> Miniclip</a> </font> <br>
+<font color="yellow" size="6">Well you can't neglect your social life, can you? Here, pick your poison: <a href="http://www.facebook.com"> Facebook</a> <a href="http://ask.fm"> Ask.fm</a> <a href="http://www.twitter.com"> Twitter</a> </font> <br>
+<font color="white" size="6">Hey, if you're bored, I know what can cheer you up! <a href="http://www.youtube.com">Click me!</a> </font> <br>
+</p2>
+</div>
+</BODY>
+</HTML>
