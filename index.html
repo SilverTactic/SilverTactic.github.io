@@ -1,126 +1,117 @@
 <!DOCTYPE html>
-<HTML>
-<HEAD>
+<html>
+<title>Derp</title>
+<head>
 <style>
-.marquee {
-   width: 500px;
-   margin: 0 auto;
-   background-image: url('http://24.media.tumblr.com/441d6e39380801251a82374476b2769b/tumblr_mi4j1pv6gA1s43s6do1_500.gif');
-   white-space: nowrap;
-   overflow: hidden;
-   box-sizing: border-box;
-   color:black;
-   font-size:18px;
-}
- 
-.marquee span {
-   display: inline-block;
-   padding-left: 100%;
-   text-indent: 0;
-   animation: marquee 15s linear infinite;
-}
- 
-.marquee span:hover {
-    animation-play-state: paused
-}
- 
-@keyframes marquee {
-    0%   { transform: translate(0, 0); }
-    100% { transform: translate(-100%, 0); }
-}
- 
-.head1 {
-        width: 1500px;
-        background-image: url('http://media.giphy.com/media/TbWQoPQOxwBpe/giphy.gif');
-        white-space: nowrap;
-        overflow: hidden;
-        color: red;
-        font-size: 18px;
-}
- 
-.par2 {
-        text-color: yellow;
+*{margin : 0; padding: 0;}
+canvas{
+	display: block;
 }
 </style>
-<title>Search Box Example 1</title>
-<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
-<!-- CSS styles for standard search box -->
-<style type="text/css">
-        #tfheader{
- 
-        }
-        #tfnewsearch{
-                float:left;
-                padding:20px;
-        }
-        .tftextinput{
-                margin: 0;
-                padding: 5px 15px;
-                font-family: Arial, Helvetica, sans-serif;
-                font-size:14px;
-                border:1px solid #0076a3; border-right:0px;
-                border-top-left-radius: 5px 5px;
-                border-bottom-left-radius: 5px 5px;
-        }
-        .tfbutton {
-                padding: 5px 15px;
-                font-family: Arial, Helvetica, sans-serif;
-                font-size:14px;
-                outline: none;
-                cursor: pointer;
-                text-align: center;
-                text-decoration: none;
-                color: #ffffff;
-                border: solid 1px #0076a3; border-right:0px;
-                background: #0095cd;
-                background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
-                background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-                border-top-right-radius: 5px 5px;
-                border-bottom-right-radius: 5px 5px;
-        }
-        .tfbutton:hover {
-                text-decoration: none;
-                background: #007ead;
-                background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-                background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-        }
-        /* Fixes submit button height problem in Firefox */
-        .tfbutton::-moz-focus-inner {
-          border: 0;
-        }
-        .tfclear{
-                clear:both;
-        }
-</style>
-</HEAD>
-<BODY background="http://i659.photobucket.com/albums/uu316/allliihavexll3/graphics/bEAt-1.gif">
-<div class="head1">
-<h1> WELCOME BACK TO CHROME, ROHAN. SO WHAT DO YOU WANT TO DO TODAY?</h1>
-</div>
-<div class="marquee">
-<p>
-<span id="dtText"></span>
 <script>
-var today = new Date();
-document.getElementById('dtText').innerHTML=today;
+window.onload = function () {
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	
+	var x = Math.floor(Math.random() * window.innerWidth) + 1;
+	var y = Math.floor(Math.random() * window.innerHeight) + 1;
+	
+	var images = [];
+	for (var i = 0; i < 8; i++) {
+		images[i] = new Image();
+		images[i].src = 'surprise/' + (i + 1) + '.png';
+	}
+	
+	function randomColor () {
+		return '#' + ['ff0000', 'ff007f', '7b00ff', '0019ff', '00e5ff', '00ff2a', 'eeff00', 'ff9900'][Math.floor(Math.random() * 8)];
+	}
+	var color = randomColor();
+	
+	function thingy () {
+		this.x = x
+		this.y = y
+		this.color = color;
+		this.radius = Math.floor(Math.random() * 40) + 1;
+		this.speedx = Math.floor(Math.random () * 40) - 20;
+		this.speedy = Math.floor(Math.random () * 40) - 20;
+		this.draw = function () {
+			ctx.beginPath();
+			var gradient = ctx.createRadialGradient(this.x, this.y, this.radius, this.x, this.y, this.radius/2);
+			gradient.addColorStop(0, 'black');
+			gradient.addColorStop(1, this.color);
+			ctx.fillStyle = gradient;
+			ctx.arc(this.x, this.y, this.radius, Math.PI*2, 0);
+			ctx.closePath()
+			ctx.fill();
+		}
+		this.advance = function () {
+			this.x += this.speedx
+			this.y += this.speedy
+			this.radius -= 2;
+		}
+	}
+	
+	var arr = [];
+	for (var i = 0; i < 150; i++) {
+		arr.push(new thingy());
+	}
+	
+	var count = 0;
+	function draw () {
+		ctx.globalCompositeOperation = 'source-over';
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+		ctx.globalCompositeOperation = 'lighter';
+		for (var i = 0; i < 150; i++) {
+			var bomb = arr[i];
+			bomb.draw();
+			bomb.advance();
+			if (bomb.radius <= 0) arr[i] = new thingy();
+		}
+		count++;
+		if (count % 8 === 0) {
+			x = Math.floor(Math.random() * window.innerWidth) + 1;
+			y = Math.floor(Math.random() * 700) + 1;
+			color = randomColor();
+		}
+	}
+	setInterval(draw, 30);
+}
 </script>
-</p>
-</div>
-<div class="par2">
-<p2><font color="yellow" size=30px>So do you want to: </font> <br>
-<font color="yellow" size="6">Search for something? Here are a few noted search engines then: <a href="http://www.google.com">Google</a> <a href="http://www.bing.com"> Bing</a> </font> <br>
-<font color="red" size="6">Or just feed off of my hard work here, you sick fgt >_> : </font><br>
-<!-- HTML for SEARCH BAR -->
-        <div id="tfheader">
-                <form id="tfnewsearch" method="get" action="http://www.google.com">
-                        <input type="text" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
-                </form>
-        <div class="tfclear"></div>
-        </div>
-<font color="yellow" size="6">Play online games? Here are your favorite sites: <a href="http://www.gameshed.com">Gameshed</a> <a href="http://www.newgrounds.com"> Newgrounds</a> <a href="http://www.kongregate.com"> Kongregate</a> <a href="http://www.miniclip.com"> Miniclip</a> </font> <br>
-<font color="yellow" size="6">Well you can't neglect your social life, can you? Here, pick your poison: <a href="http://www.facebook.com"> Facebook</a> <a href="http://ask.fm"> Ask.fm</a> <a href="http://www.twitter.com"> Twitter</a> </font> <br>
-<font color="white" size="6">Hey, if you're bored, I know what can cheer you up! <a href="http://www.youtube.com">Click me!</a> </font> <br>
-</p2>
-</div>
-</BODY>
-</HTML>
+</head>
+
+<body bgcolor = "black">
+	<canvas id = "canvas"></canvas>
+	<div style = "position: absolute; bottom: 0; right: 0; transform: rotateY(180deg)">
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	</div>
+	
+	<div style = "position: absolute; bottom: 0; left: 0;">
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	<div style = "bottom: 0px; position: relative; float: right; width: 160px; height: 127px; overflow: hidden">
+		<img src = "dancingfrog.gif" style = "position: absolute; width: 160px; height: 130px;">
+	</div>
+	</div>
+</body>
+</html>
